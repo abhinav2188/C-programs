@@ -115,27 +115,53 @@ class SingleLinkedList {
 		}
 		//function to display linked list
 		void display(){
-			cout<<"Linked list data :";
 			for(Node<T> *ptr = head ; ptr!=NULL ; ptr=ptr->next){
 				cout<<ptr->data<<" -> ";
 			}
 			cout<<endl;
 		}
+		//function to reverse elements of linked list
+		void reverse(){
+			if(head->next==NULL)
+				return;
+			Node<T> *tmp;
+			Node<T> *slast;
+			bool flag = true;
+			for(slast=head;slast->next!=tail;slast=slast->next);
+			
+			while(slast!=NULL){
+				tail->next = slast;
+				if(flag){
+					tmp = tail;
+					flag = false;
+				}
+				slast->next=NULL;
+				tail=slast;
+				if(head==tail)
+				break;
+				for(slast=head;slast->next!=tail;slast=slast->next);
+			
+			}
+			head = tmp;
+		}
+			
+		
 }; 
 
 int main(){
 	SingleLinkedList<int> sll;
+
 	sll.insertAtLast(12);
+	sll.display();
+	cout<<"reverse : ";
+	sll.reverse();
 	sll.display();
 	sll.insertAtLast(23);
 	sll.display();
+	cout<<"reverse : ";
+	sll.reverse();
+	sll.display();
 	sll.insertAtLast(112);
-	sll.display();
-	sll.deleteFromFront();
-	sll.display();
-	sll.insertAtLast(45);
-	sll.display();
-	sll.insertAtIndex(66,7);
 	sll.display();
 	sll.insertAtIndex(2,2);
 	sll.display();
@@ -143,6 +169,11 @@ int main(){
 	sll.display();
 	sll.insertAtIndex(78,5);
 	sll.display();
+	cout<<"\n";
+	cout<<"reverse : ";
+	sll.reverse();
+	sll.display();
+
 	sll.insertAtFront(90);
 	sll.display();
 	sll.deleteFromIndex(3);
