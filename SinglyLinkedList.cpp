@@ -19,12 +19,14 @@ class SingleLinkedList {
 	Node<T> *tail;
 	int size;
 	public:
+		//constructor
 		SingleLinkedList(){
 			cout<<"constructor linked list\n";
 			head = NULL;
 			size=0;
 			tail= NULL;
 		}
+		//insertion
 		void insertAtLast(T value){
 			Node<T> *tmp = new Node<T>(value);
 			if(head == NULL){
@@ -70,9 +72,23 @@ class SingleLinkedList {
 			}
 			size++;
 		}
+		//deletion
+		void deleteFromLast(){
+			if(tail == NULL){
+				cout<<"no nodes left";
+				return;
+			}else{
+				Node<T> *ptr;
+				for(ptr=head;ptr->next!=tail;ptr=ptr->next);
+				ptr->next=NULL;
+				size--;
+			}
+		}
+		//function to return size of the linked list
 		int getSize(){
 			return size;
 		}
+		//function to display linked list
 		void display(){
 			cout<<"Linked list data : \n";
 			for(Node<T> *ptr = head ; ptr!=NULL ; ptr=ptr->next){
@@ -99,5 +115,10 @@ int main(){
 	sll.insertAtFront(90);
 	sll.display();
 	cout<<"size = "<<sll.getSize()<<endl;
+	sll.deleteFromLast();
+	sll.display();
+	cout<<"size = "<<sll.getSize()<<endl;
+	
+	
 	return 0;
 }
