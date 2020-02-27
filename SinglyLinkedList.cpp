@@ -30,12 +30,10 @@ class SingleLinkedList {
 		void insertAtLast(T value){
 			Node<T> *tmp = new Node<T>(value);
 			if(head == NULL){
-				cout<<"first insert\n";
 				tail = head = tmp;
 			}else{
 				tail->next = tmp;
 				tail = tmp;
-				cout<<"insert\n";
 			}
 			size++;
 		}
@@ -51,16 +49,15 @@ class SingleLinkedList {
 		}
 		void insertAtIndex(T value, int index){
 			if(index >size){
-				cout<<"index out of range";
+				cout<<"index out of range \n";
 				return;
 			}
-			Node<T> *tmp = new Node<T>(value);
 			if(index == 0){
-				head = tail = tmp;
+				insertAtFront(value);
 			}else if(index == size){
-				tail->next = tmp;
-				tail = tmp;
+				insertAtLast(value);
 			}else{
+				Node<T> *tmp = new Node<T>(value);
 				Node<T> *ptr = head;
 				int i = 0;
 				while(i != index-1){
@@ -69,8 +66,8 @@ class SingleLinkedList {
 				}
 				tmp->next = ptr->next;
 				ptr->next = tmp;
-			}
 			size++;
+			}
 		}
 		//deletion
 		void deleteFromLast(){
@@ -81,6 +78,34 @@ class SingleLinkedList {
 				Node<T> *ptr;
 				for(ptr=head;ptr->next!=tail;ptr=ptr->next);
 				ptr->next=NULL;
+				tail=ptr;
+				size--;
+			}
+		}
+		void deleteFromFront(){
+			if(head==NULL){
+				cout<<"no nodes left";
+				return;
+			}else{
+				head = head->next;
+				size--;
+			}
+		}
+		void deleteFromIndex(int index){
+			if(head==NULL){
+				cout<<"no nodes left";
+				return;
+			}else if(index==0){
+				deleteFromFront();
+			}else if(index==size-1){
+				deleteFromLast();
+			}
+			else{
+				Node<T> *tmp = head;
+				for(int i=0; i<=index-2 ;i++){
+					tmp = tmp->next;
+				}
+				tmp->next = tmp->next->next;
 				size--;
 			}
 		}
@@ -90,7 +115,7 @@ class SingleLinkedList {
 		}
 		//function to display linked list
 		void display(){
-			cout<<"Linked list data : \n";
+			cout<<"Linked list data :";
 			for(Node<T> *ptr = head ; ptr!=NULL ; ptr=ptr->next){
 				cout<<ptr->data<<" -> ";
 			}
@@ -106,18 +131,36 @@ int main(){
 	sll.display();
 	sll.insertAtLast(112);
 	sll.display();
+	sll.deleteFromFront();
+	sll.display();
 	sll.insertAtLast(45);
 	sll.display();
-	cout<<"size = "<<sll.getSize()<<endl;
+	sll.insertAtIndex(66,7);
+	sll.display();
 	sll.insertAtIndex(2,2);
 	sll.display();
-	cout<<"size = "<<sll.getSize()<<endl;
+	sll.insertAtIndex(0,0);
+	sll.display();
+	sll.insertAtIndex(78,5);
+	sll.display();
 	sll.insertAtFront(90);
 	sll.display();
-	cout<<"size = "<<sll.getSize()<<endl;
+	sll.deleteFromIndex(3);
+	sll.display();
 	sll.deleteFromLast();
 	sll.display();
-	cout<<"size = "<<sll.getSize()<<endl;
+	sll.deleteFromLast();
+	sll.display();
+	sll.deleteFromFront();
+	sll.display();
+	sll.deleteFromLast();
+	sll.display();
+	sll.deleteFromFront();
+	sll.display();
+	sll.insertAtFront(9);
+	sll.display();
+	sll.deleteFromIndex(1);
+	sll.display();
 	
 	
 	return 0;
