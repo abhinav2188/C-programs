@@ -156,28 +156,72 @@ class CircularLinkedList {
 int main(){
 
 	CircularLinkedList<int> dll;
+
+//	int type;
+//	cout<<"Select the type of circular linked list \n";
+//	cout<<"1 : Integer\n";
+//	cout<<"2 : Character\n";
+//	cout<<"3 : Float\n";
+//	cin>> type;
 	
-	dll.insertAtLast(133); dll.insertAtLast(13); dll.insertAtLast(167);	dll.insertAtLast(87);
-	dll.display();
-	dll.insertAtFront(21); dll.insertAtFront(76); dll.insertAtFront(90);
-	dll.display();
-	dll.insertAtIndex(89,6);dll.insertAtIndex(34,1);dll.insertAtIndex(99,9);
-	dll.display();
-	dll.displayFromEnd();
-	dll.display();
-	dll.deleteFromFront();
-	dll.display();
-	dll.displayFromEnd();
-	dll.deleteFromLast();
-	dll.display();
-	dll.displayFromEnd();
-	dll.deleteFromIndex(4);
-	dll.display();
-	dll.displayFromEnd();
-	Node<int> *f = dll.front();
-	cout<<"front "<<f->data<<endl;
-	Node<int> *l = dll.rear();
-	cout<<"rear "<<l->data<<endl;
+
+	int choice;
+	do{
+		
+		cout<<"Select an option for circular linked list \n";
+		cout<<"1 : insert"<<endl;
+		cout<<"2 : display"<<endl;
+		cout<<"3 : delete"<<endl;
+		cout<<"4 : size"<<endl;
+		cout<<"5 : END"<<endl;
+		cin>>choice;
+		
+		switch(choice){
+			
+			case 1:{
+				
+				int el;
+				cout<<"Enter a number : ";
+				cin>>el;
+			
+				int pos;
+				cout<<"Select position : \n";
+				cout<<"1 : beginning\n";
+				cout<<"2 : end\n";
+				cout<<"3 : at a specified index\n";
+				cin>>pos;
+				
+				switch(pos){
+					case 1:{
+						dll.insertAtFront(el);
+						break;
+					}
+					case 2:{
+						dll.insertAtLast(el);
+						break;
+					}
+					case 3:{
+						int index;
+						cout<<"Enter the index position (index starts at 0) : ";
+						cin>>index;
+						dll.insertAtIndex(el,index);
+						break;
+					}
+				}
+				cout<<"Element inserted \n";
+				break;
+			}
+			case 2 : {
+				cout<<"Displaying current linked list : ";
+				dll.display();
+				break;
+			}
+			default :
+				cout<<"specify correct option \n";
+				
+		}
+		
+	}while(choice != 5);
 	
 	return 0;
 }
