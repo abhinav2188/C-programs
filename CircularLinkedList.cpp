@@ -16,13 +16,13 @@ class Node{
 };
 
 template <class T>
-class DoubleLinkedList {
+class CircularLinkedList {
 	Node<T> *head;
 	Node<T> *tail;
 	int size;
 	public:
 		//constructor
-		DoubleLinkedList(){
+		CircularLinkedList(){
 			head = NULL;
 			size=0;
 			tail= NULL;
@@ -33,8 +33,10 @@ class DoubleLinkedList {
 			if(head == NULL){
 				tail = head = tmp;
 			}else{
+				head->prev = tmp;
 				tail->next = tmp;
 				tmp->prev=tail;
+				tmp->next = head;
 				tail = tmp;
 			}
 			size++;
@@ -45,8 +47,9 @@ class DoubleLinkedList {
 				head = tail = tmp;
 			}else{
 				tmp->next = head;
-				tmp->prev = NULL;
+				tmp->prev = tail;
 				head->prev = tmp;
+				tail->next = tmp;
 				head = tmp;
 			}
 			size++;
@@ -84,8 +87,9 @@ class DoubleLinkedList {
 				Node<T> *ptr;
 				for(ptr=head;ptr->next!=tail;ptr=ptr->next);
 				ptr->next->prev = NULL;
-				ptr->next=NULL;
-				tail=ptr;
+				ptr->next = head;
+				head->prev = ptr;
+				tail = ptr;
 				size--;
 			}
 		}
@@ -94,7 +98,8 @@ class DoubleLinkedList {
 				cout<<"no nodes left";
 				return;
 			}else{
-				head->next->prev = NULL;
+				head->next->prev = tail;
+				tail->next = head->next;
 				head = head->next;
 				size--;
 			}
@@ -124,38 +129,33 @@ class DoubleLinkedList {
 		}
 		//function to display linked list
 		void display(){
-			for(Node<T> *ptr = head ; ptr!=NULL ; ptr=ptr->next){
+			for(Node<T> *ptr = head ; ptr!=tail ; ptr=ptr->next){
 				cout<<ptr->data<<" -> ";
 			}
+			cout<<tail->data;
 			cout<<endl;
 		}
 		void displayFromEnd(){
-			for(Node<T> *ptr = tail; ptr!=NULL; ptr=ptr->prev){
+			for(Node<T> *ptr = tail; ptr!=head ; ptr=ptr->prev){
 				cout<<ptr->data<<" -> ";
 			}
+			cout<<head->data;
 			cout<<endl;
 		}
-		
-		//function to reverse elements of linked list
-		void reverse(){
-			if(head->next==NULL)
-				return;
-			for(Node<T> *ptr=tail;ptr!=NULL;ptr=ptr->prev){
-				ptr->next = ptr->prev;
-			}
-			head = tail;
-			head->prev = NULL;
-			Node<T> *tmp;
-			for(Node<T> *tmp=head; tmp->next!=NULL; tmp=tmp->next)
-			tmp->next->prev = tmp;
-			tail = tmp;
+		//functions to return head and tail nodes
+		Node<T>* front(){
+			return head;
 		}
+		Node<T>* rear(){
+			return tail;
+		}
+		
 		
 }; 
 
 int main(){
 
-	DoubleLinkedList<int> dll;
+	CircularLinkedList<int> dll;
 	
 	dll.insertAtLast(133); dll.insertAtLast(13); dll.insertAtLast(167);	dll.insertAtLast(87);
 	dll.display();
@@ -163,10 +163,8 @@ int main(){
 	dll.display();
 	dll.insertAtIndex(89,6);dll.insertAtIndex(34,1);dll.insertAtIndex(99,9);
 	dll.display();
-	cout<<"reverse ";
-	dll.reverse();
-	dll.display();
 	dll.displayFromEnd();
+	dll.display();
 	dll.deleteFromFront();
 	dll.display();
 	dll.displayFromEnd();
@@ -176,7 +174,10 @@ int main(){
 	dll.deleteFromIndex(4);
 	dll.display();
 	dll.displayFromEnd();
-	
+	Node<int> *f = dll.front();
+	cout<<"front "<<f->data<<endl;
+	Node<int> *l = dll.rear();
+	cout<<"rear "<<l->data<<endl;
 	
 	return 0;
 }
