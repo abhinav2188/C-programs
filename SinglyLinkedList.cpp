@@ -36,6 +36,7 @@ class SingleLinkedList {
 				tail = tmp;
 			}
 			size++;
+			cout<<"Element inserted \n";
 		}
 		void insertAtFront(T value){
 			Node<T> *tmp = new Node<T>(value);
@@ -46,6 +47,7 @@ class SingleLinkedList {
 				head = tmp;
 			}
 			size++;
+			cout<<"Element inserted \n";
 		}
 		void insertAtIndex(T value, int index){
 			if(index >size){
@@ -67,33 +69,44 @@ class SingleLinkedList {
 				tmp->next = ptr->next;
 				ptr->next = tmp;
 			size++;
+			cout<<"Element inserted \n";
 			}
 		}
 		//deletion
 		void deleteFromLast(){
 			if(tail == NULL){
-				cout<<"no nodes left";
+				cout<<"no nodes left \n";
 				return;
 			}else{
+				if(head == tail)
+				head = tail = NULL;
 				Node<T> *ptr;
 				for(ptr=head;ptr->next!=tail;ptr=ptr->next);
 				ptr->next=NULL;
 				tail=ptr;
 				size--;
+				cout<<"Element deleted \n";
 			}
 		}
 		void deleteFromFront(){
 			if(head==NULL){
-				cout<<"no nodes left";
+				cout<<"no nodes left\n";
 				return;
 			}else{
+				if(head == tail)
+				head = tail = NULL;
 				head = head->next;
 				size--;
+				cout<<"Element deleted \n";
 			}
 		}
 		void deleteFromIndex(int index){
+			if(index >= size){
+				cout<<"index out of range \n";
+				return;
+			}
 			if(head==NULL){
-				cout<<"no nodes left";
+				cout<<"no nodes left\n";
 				return;
 			}else if(index==0){
 				deleteFromFront();
@@ -101,12 +114,15 @@ class SingleLinkedList {
 				deleteFromLast();
 			}
 			else{
+				if(head == tail)
+				head = tail = NULL;
 				Node<T> *tmp = head;
 				for(int i=0; i<=index-2 ;i++){
 					tmp = tmp->next;
 				}
 				tmp->next = tmp->next->next;
 				size--;
+				cout<<"Element deleted \n";
 			}
 		}
 		//function to return size of the linked list
@@ -146,7 +162,30 @@ class SingleLinkedList {
 		}
 		
 		//function to search and swap a element with its previous node
-		void searchAndSwap(int index){
+		void searchAndSwap(T el){
+			Node<T> *prev ;
+			bool flag = false;
+			if(head->data == el){
+				cout<<"Head element can't be swapped \n";
+			}
+			for(Node<T> *ptr = head; ptr!=tail; ptr=ptr->next){
+				prev = ptr;
+				if(prev->next->data == el){
+					flag = true;
+					break;
+				}
+			}
+			if(flag){
+				T tmp = prev->data;
+				prev->data = prev->next->data;
+				prev->next->data = tmp;
+				cout<<"Element swapped \n";
+			}else{
+				cout<<"Element not found \n";
+			}
+		}
+		
+		void swapAtIndex(int index){
 			if(index>=size||index<1){
 				cout<<"invalid index for swapping with previous element \n";
 				return;
@@ -155,7 +194,7 @@ class SingleLinkedList {
 				for(int i=1;i<index;i++){
 					prev = prev->next;
 				}
-				int tmp = prev->next->data;
+				T tmp = prev->next->data;
 				prev->next->data = prev->data;
 				prev->data = tmp;
 			}
@@ -166,54 +205,108 @@ class SingleLinkedList {
 int main(){
 	SingleLinkedList<int> sll;
 
-	sll.insertAtLast(12);
-	sll.display();
-	cout<<"reverse : ";
-	sll.reverse();
-	sll.display();
-	sll.insertAtLast(23);
-	sll.display();
-	cout<<"reverse : ";
-	sll.reverse();
-	sll.display();
-	sll.insertAtLast(112);
-	sll.display();
-	sll.insertAtIndex(2,2);
-	sll.display();
-	sll.insertAtIndex(0,0);
-	sll.display();
-	sll.insertAtIndex(78,5);
-	sll.display();
-	cout<<"\n";
-	cout<<"reverse : ";
-	sll.reverse();
-	sll.display();
-
-	sll.insertAtFront(90);
-	sll.display();
-	cout<<"swap ";
-	sll.searchAndSwap(3);
-	sll.display();
-	sll.deleteFromIndex(3);
-	sll.display();
-	cout<<"swap ";
-	sll.searchAndSwap(6);
-	sll.display();
-	sll.deleteFromLast();
-	sll.display();
-	sll.deleteFromLast();
-	sll.display();
-	sll.deleteFromFront();
-	sll.display();
-	sll.deleteFromLast();
-	sll.display();
-	sll.deleteFromFront();
-	sll.display();
-	sll.insertAtFront(9);
-	sll.display();
-	sll.deleteFromIndex(1);
-	sll.display();
-	
+	int choice;
+	do{
+		
+		cout<<"\nSelect an option for circular linked list \n";
+		cout<<"1 : insert"<<endl;
+		cout<<"2 : display"<<endl;
+		cout<<"3 : delete"<<endl;
+		cout<<"4 : size"<<endl;
+		cout<<"5 : reverse list"<<endl;
+		cout<<"6 : search and swap with previous node"<<endl;
+		cout<<"7 : END"<<endl;
+		cin>>choice;
+		
+		switch(choice){
+			
+			case 1:{
+				
+				int el;
+				cout<<"Enter a number : ";
+				cin>>el;
+			
+				int pos;
+				cout<<"Select position to insert : \n";
+				cout<<"1 : beginning\n";
+				cout<<"2 : end\n";
+				cout<<"3 : at a specified index\n";
+				cin>>pos;
+				
+				switch(pos){
+					case 1:{
+						sll.insertAtFront(el);
+						break;
+					}
+					case 2:{
+						sll.insertAtLast(el);
+						break;
+					}
+					case 3:{
+						int index;
+						cout<<"Enter the index position (index starts at 0) : ";
+						cin>>index;
+						sll.insertAtIndex(el,index);
+						break;
+					}
+				}
+				break;
+			}
+			case 2 : {
+				cout<<"Displaying current linked list : ";
+				sll.display();
+				break;
+			}
+			case 3: {
+				int pos;
+				cout<<"Select position to delete : \n";
+				cout<<"1 : beginning\n";
+				cout<<"2 : end\n";
+				cout<<"3 : at a specified index\n";
+				cin>>pos;
+				
+				switch(pos){
+					case 1:{
+						sll.deleteFromFront();
+						break;
+					}
+					case 2:{
+						sll.deleteFromLast();
+						break;
+					}
+					case 3:{
+						int index;
+						cout<<"Enter the index position (index starts at 0) : ";
+						cin>>index;
+						sll.deleteFromIndex(index);
+						break;
+					}
+				}
+				break;
+			}
+			case 4:{
+				cout<<"Size of the linked list is "<<sll.getSize()<<endl;
+				break;
+			}
+			case 5:{
+				sll.reverse();
+				cout<<"linked list is successfully reversed"<<endl;
+				break;
+			}
+			case 6 :{
+				int el;
+				cout<<"Enter element : ";
+				cin>>el;
+				sll.searchAndSwap(el);
+				break;
+			}
+			default :
+				cout<<"specify correct option \n";
+				
+		}
+		
+	}while(choice != 7);
 	
 	return 0;
-}
+}	
+
