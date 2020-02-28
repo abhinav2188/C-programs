@@ -208,7 +208,7 @@ int main(){
 	int choice;
 	do{
 		
-		cout<<"\nSelect an option for circular linked list \n";
+		cout<<"\nSelect an option for single linked list \n";
 		cout<<"1 : insert"<<endl;
 		cout<<"2 : display"<<endl;
 		cout<<"3 : delete"<<endl;

@@ -38,6 +38,7 @@ class DoubleLinkedList {
 				tail = tmp;
 			}
 			size++;
+			cout<<"element inserted \n";
 		}
 		void insertAtFront(T value){
 			Node<T> *tmp = new Node<T>(value);
@@ -50,6 +51,7 @@ class DoubleLinkedList {
 				head = tmp;
 			}
 			size++;
+			cout<<"element inserted \n";
 		}
 		void insertAtIndex(T value, int index){
 			if(index >size){
@@ -73,6 +75,7 @@ class DoubleLinkedList {
 				ptr->next->prev = tmp;
 				ptr->next = tmp;
 			size++;
+			cout<<"element inserted \n";
 			}
 		}
 		//deletion
@@ -87,6 +90,7 @@ class DoubleLinkedList {
 				ptr->next=NULL;
 				tail=ptr;
 				size--;
+				cout<<"element deleted \n";
 			}
 		}
 		void deleteFromFront(){
@@ -97,9 +101,14 @@ class DoubleLinkedList {
 				head->next->prev = NULL;
 				head = head->next;
 				size--;
+				cout<<"element deleted \n";
 			}
 		}
 		void deleteFromIndex(int index){
+			if(index >size){
+				cout<<"index out of range \n";
+				return;
+			}
 			if(head==NULL){
 				cout<<"no nodes left";
 				return;
@@ -116,6 +125,7 @@ class DoubleLinkedList {
 				tmp->next->next->prev = tmp;
 				tmp->next = tmp->next->next;
 				size--;
+				cout<<"element deleted \n";
 			}
 		}
 		//function to return size of the linked list
@@ -124,12 +134,14 @@ class DoubleLinkedList {
 		}
 		//function to display linked list
 		void display(){
+			cout<<"displaying list : ";
 			for(Node<T> *ptr = head ; ptr!=NULL ; ptr=ptr->next){
 				cout<<ptr->data<<" -> ";
 			}
 			cout<<endl;
 		}
 		void displayFromEnd(){
+			cout<<"displaying from end : ";
 			for(Node<T> *ptr = tail; ptr!=NULL; ptr=ptr->prev){
 				cout<<ptr->data<<" -> ";
 			}
@@ -143,40 +155,129 @@ class DoubleLinkedList {
 			for(Node<T> *ptr=tail;ptr!=NULL;ptr=ptr->prev){
 				ptr->next = ptr->prev;
 			}
+			head->next = NULL;
+			tail->prev = NULL;
 			head = tail;
-			head->prev = NULL;
 			Node<T> *tmp;
 			for(Node<T> *tmp=head; tmp->next!=NULL; tmp=tmp->next)
 			tmp->next->prev = tmp;
 			tail = tmp;
+			cout<<"Linked list successfully reversed \n";
 		}
+		
 		
 }; 
 
 int main(){
 
 	DoubleLinkedList<int> dll;
-	
-	dll.insertAtLast(133); dll.insertAtLast(13); dll.insertAtLast(167);	dll.insertAtLast(87);
-	dll.display();
-	dll.insertAtFront(21); dll.insertAtFront(76); dll.insertAtFront(90);
-	dll.display();
-	dll.insertAtIndex(89,6);dll.insertAtIndex(34,1);dll.insertAtIndex(99,9);
-	dll.display();
-	cout<<"reverse ";
-	dll.reverse();
-	dll.display();
-	dll.displayFromEnd();
-	dll.deleteFromFront();
-	dll.display();
-	dll.displayFromEnd();
-	dll.deleteFromLast();
-	dll.display();
-	dll.displayFromEnd();
-	dll.deleteFromIndex(4);
-	dll.display();
-	dll.displayFromEnd();
-	
+//	dll.insertAtFront(12);
+//	dll.insertAtFront(78);
+//	dll.insertAtFront(90);
+//	dll.reverse();
+//	dll.insertAtLast(877);
+//	dll.display();
+//	dll.displayFromEnd();
+//	dll.reverse();
+//	dll.display();
+//	dll.displayFromEnd();
+
+	int choice;
+	do{
+		
+		cout<<"Select an option for double linked list \n";
+		cout<<"1 : insert"<<endl;
+		cout<<"2 : display"<<endl;
+		cout<<"3 : delete"<<endl;
+		cout<<"4 : size"<<endl;
+		cout<<"5 : reverse"<<endl;
+		cout<<"6 : display reverse "<<endl;
+		cout<<"7 : END"<<endl;
+		cin>>choice;
+		
+		switch(choice){
+			
+			case 1:{
+				
+				int el;
+				cout<<"Enter a number : ";
+				cin>>el;
+			
+				int pos;
+				cout<<"Select position to insert : \n";
+				cout<<"1 : beginning\n";
+				cout<<"2 : end\n";
+				cout<<"3 : at a specified index\n";
+				cin>>pos;
+				
+				switch(pos){
+					case 1:{
+						dll.insertAtFront(el);
+						break;
+					}
+					case 2:{
+						dll.insertAtLast(el);
+						break;
+					}
+					case 3:{
+						int index;
+						cout<<"Enter the index position (index starts at 0) : ";
+						cin>>index;
+						dll.insertAtIndex(el,index);
+						break;
+					}
+				}
+				break;
+			}
+			case 2 : {
+				dll.display();
+				break;
+			}
+			case 3: {
+				int pos;
+				cout<<"Select position to delete : \n";
+				cout<<"1 : beginning\n";
+				cout<<"2 : end\n";
+				cout<<"3 : at a specified index\n";
+				cin>>pos;
+				
+				switch(pos){
+					case 1:{
+						dll.deleteFromFront();
+						break;
+					}
+					case 2:{
+						dll.deleteFromLast();
+						break;
+					}
+					case 3:{
+						int index;
+						cout<<"Enter the index position (index starts at 0) : ";
+						cin>>index;
+						dll.deleteFromIndex(index);
+						break;
+					}
+				}
+				break;
+			}
+			case 4:{
+				cout<<"Size of the linked list is "<<dll.getSize()<<endl;
+				break;
+			}
+			case 5 : {
+				dll.reverse();
+				break;
+			}
+			case 6 :{
+				dll.displayFromEnd();
+				break;
+			}
+			default :
+				cout<<"specify correct option \n";
+			
+		}
+		
+	}while(choice != 7);
 	
 	return 0;
 }
