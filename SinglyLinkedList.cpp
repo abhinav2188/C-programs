@@ -144,7 +144,22 @@ class SingleLinkedList {
 			}
 			head = tmp;
 		}
-			
+		
+		//function to search and swap a element with its previous node
+		void searchAndSwap(int index){
+			if(index>=size||index<1){
+				cout<<"invalid index for swapping with previous element \n";
+				return;
+			}else{
+				Node<T> *prev = head;
+				for(int i=1;i<index;i++){
+					prev = prev->next;
+				}
+				int tmp = prev->next->data;
+				prev->next->data = prev->data;
+				prev->data = tmp;
+			}
+		}	
 		
 }; 
 
@@ -176,7 +191,13 @@ int main(){
 
 	sll.insertAtFront(90);
 	sll.display();
+	cout<<"swap ";
+	sll.searchAndSwap(3);
+	sll.display();
 	sll.deleteFromIndex(3);
+	sll.display();
+	cout<<"swap ";
+	sll.searchAndSwap(6);
 	sll.display();
 	sll.deleteFromLast();
 	sll.display();
