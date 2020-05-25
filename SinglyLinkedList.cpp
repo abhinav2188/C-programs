@@ -202,8 +202,10 @@ class SingleLinkedList {
 		
 }; 
 
+
 int main(){
-	SingleLinkedList<int> sll;
+	
+	SingleLinkedList<float> sll;
 
 	int choice;
 	do{
